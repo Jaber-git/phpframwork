@@ -6,5 +6,6 @@ $obj=new Registry();
 $obj->getUrl();
 $obj->getUrl();
 echo "this for test";
+echo "this for branch test";
 
 ?>
