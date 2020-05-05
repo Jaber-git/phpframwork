@@ -2,14 +2,18 @@
 
 include_once 'registry/registry.class.php';
 include_once 'registry/databaseobjects/mysql.database.class.php';
-$obj= new mysqldatabase();
-//$obj=new Registry();
-$conn=$obj->newConnection("localhost","root"," ","dv_mvc");
+//create an object of registry
+$regi= new Registry();
+//in registry we stroe database object
+$regi->storeObject('mysql.database', 'db');
+
+//connect db via registry
+$conn=$regi->getObject('db')->newConnection("localhost","root"," ","dv_mvc");
 
 $sql = "SELECT id, name,title FROM category";
 //echo "this for test";
 //echo "this for branch test";
-$result=$obj->executeQuery( $sql );
+$result=$regi->getObject('db')->executeQuery( $sql );
 // $rw=$obj->getRows();
 
  echo "<br/>";
@@ -17,7 +21,7 @@ $result=$obj->executeQuery( $sql );
 
 
 
-  
+
 
 
 

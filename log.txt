@@ -3,3 +3,161 @@
 কয়েকটি মেথড তৈরি করে তা প্রাইভেট ভেরিয়েবলে রাখি।
 
 পরে ইন্দেক্স ফাইল থেকে object তৈরি করে তা call করার মাধ্যমে database থেকে ডাটা table প্রদর্শন করাই।
+
+The .= operator
+This operator is used for appending text at the end of  the string rather than overwriting the v
+variable.
+try the following code
+
+  //this is the tecknique used for wraping up mysql field and value
+
+<?php
+$output=null;
+$arr=['one','two', 'three'];
+
+for ($i=0; $i<10 ;$i++) {
+
+$output .=" {$i}, ";
+
+
+}
+echo "({$output})";
+   ?>
+......................
+   ....Tut2.........
+   ................
+   index.php
+   <?php
+
+   include_once 'registry/registry.class.php';
+   include_once 'registry/databaseobjects/mysql.database.class.php';
+   //create an object of registry
+   $regi= new Registry();
+   //in registry we stroe database object
+   $regi->storeObject('mysql.database', 'db');
+
+   //connect db via registry
+   $conn=$regi->getObject('db')->newConnection("localhost","root"," ","dv_mvc");
+
+   $sql = "SELECT id, name,title FROM category";
+   //echo "this for test";
+   //echo "this for branch test";
+   $result=$regi->getObject('db')->executeQuery( $sql );
+   // $rw=$obj->getRows();
+
+    echo "<br/>";
+   ?>
+
+
+   <table style="margin :0;paddin :0; color:blue; width:250px; line-height:25px;border: 2px solid yellow">
+
+           <tr style="margin :0;paddin :0; border: 2px solid red;">
+               <th  style="border: 2px solid blue;">No</th>
+               <th  style=" border: 2px solid blue;">name</th>
+               <th  style=" border: 2px solid blue;">Title</th>
+           </tr>
+
+       <?php    foreach($result as $k=>$v) {  ?>
+       <tr style="border: 2px solid dashed;">
+             <td style=" border: 2px solid blue;"><?php echo $v["id"]; ?> </td>
+             <td style=" border: 2px solid blue;"><?php echo $v["name"];   ?> </td>
+             <td style=" border: 2px solid blue;"><?php echo  $v["title"]; ?> </td>
+       </tr>
+     <?php } ?>
+   </table>
+
+   msql.clas.database.php
+   <?php
+
+   class mysqldatabase {
+
+   private $conn=array();
+   private $res;
+
+
+
+   public function __construct(){
+
+   }
+     public function newConnection($host,$user, $password ,$database){
+         $this->conn=  new mysqli ($host,$user, $password ,$database);
+          echo "connection is succesfull and Fetch from database";
+          return $this->conn;
+     }
+
+     public function getRows()
+         {
+         	return $this->res->fetch_array(MYSQLI_ASSOC);
+         }
+
+
+
+
+
+     public function insertRecords($table){
+       //
+       foreach($data as $f =>$v) {
+         $fields .= "'$f,'";
+         $values .=(is_numeric($v) && (intval($v)==$v))? $v.",":"'v',";
+           }
+         $insert= "INSERT INTO $table ({$fields}) VALUES({$values})";
+         $this->executeQuery($insert);
+
+         return true;
+       }
+
+   public function executeQuery($queryStr){
+     $this->res= $this->conn->query($queryStr);
+       return $this->res;
+           }
+
+
+     }
+
+
+    ?>
+
+
+    registr.class.php
+
+    <?php
+    class Registry{
+      /**
+      * The array of objects being stored within the registry
+      * @access private
+      */
+      private static $objects = array();
+
+    public function storeObject( $object, $key )
+          {
+              if( strpos( $object, 'database' ) !== false )
+              {
+                  $object_a=str_replace( '.database', 'database', $object);
+
+                    $object = str_replace( '.database', '', $object);
+                    require_once('databaseobjects/' . $object. '.database.class.php');
+                    //oerwriting is working here
+                      $object=    $object_a;
+              }
+              else
+              {
+                    require_once('objects/' . $object . '.class.php');
+              }
+                    self::$objects[ $key ] = new $object( );
+          }
+
+          /**
+          * Gets an object from within the registry
+          * @param String $key the array key used to store the object
+          * @return object - the object
+          */
+      public function getObject( $key )
+          {
+                if( is_object ( self::$objects[ $key ] ) )
+                {
+                return self::$objects[ $key ];
+                 }
+          }
+
+    }
+    ?>
