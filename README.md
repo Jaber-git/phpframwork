@@ -15,3 +15,15 @@ https://phpro.org/classes/PDOFormGen-Doc.html
   --registry নামের ক্লাস তৈরি করি যেখানে একটি মেথড  storeObject দুটি object and key পারামিটার
   মাধ্যমে সকল অব্জেক্ট স্টোর করা হয়।
   --getObject এর মাধ্যমে সেই অব্জেক্টকে ধ্রা হয়।
+
+  .........
+  ...tut3....working with getURLData
+  ...........
+
+
+  I define a functin getUrl() in regristry class .
+  ->if there is any empty controller i mean first last url value is empty.
+  then I use array_sift() and Array_pop() function;
+  for this there is another function called trim_array() which i define.
+  ->This function i get from index file.
+  -> also used singlton pattern to access registry class
