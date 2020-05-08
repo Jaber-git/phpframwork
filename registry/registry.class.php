@@ -6,6 +6,32 @@ class Registry{
   */
   private static $objects = array();
 
+
+
+
+  /**
+	 * The instance of the registry
+	 * @access private
+	 */
+	private static $instance;
+
+  private static $urlPath;
+  private static $urlBits = array();
+
+  /**
+  * singleton method used to access the object
+  * @access public
+  * @return
+  */
+  public static function singleton()
+  {
+      if( !isset( self::$instance ) )
+      {
+            $obj = __CLASS__;
+            self::$instance = new $obj;
+      }
+      return self::$instance;
+  }
 public function storeObject( $object, $key )
       {
           if( strpos( $object, 'database' ) !== false )
@@ -36,6 +62,53 @@ public function storeObject( $object, $key )
             return self::$objects[ $key ];
              }
       }
+
+
+      /**
+	 * Gets data from the current URL
+	 * @return void
+	 */
+	public function getURLData()
+	{
+     $urldata = (isset($_GET['page'])) ? $_GET['page'] : '' ;
+		self::$urlPath = $urldata;
+		if( $urldata == '' )
+		{
+			self::$urlBits[] = 'home';
+			self::$urlPath = 'home';
+		}
+		else
+		{
+			$data = explode( '/', $urldata );
+        print_r( $data);
+			while ( !empty( $data ) && strlen( reset( $data ) ) === 0 )
+			{
+		    	array_shift( $data );
+		    }
+		    while ( !empty( $data ) && strlen( end( $data ) ) === 0)
+		    {
+		        array_pop($data);
+		    }
+			 self::$urlBits = $this->array_trim( $data );
+      print_r( self::$urlBits);
+		}
+	}
+
+  private function array_trim( $array )
+	{
+	    while ( ! empty( $array ) && strlen( reset( $array ) ) === 0)
+	    {
+	        array_shift( $array );
+	    }
+
+	    while ( !empty( $array ) && strlen( end( $array ) ) === 0)
+	    {
+	        array_pop( $array );
+	    }
+    echo "this is from trim";
+    print_r($array);
+	    return $array;
+	}
 
 }
 ?>

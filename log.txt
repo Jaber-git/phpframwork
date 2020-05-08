@@ -159,5 +159,22 @@ echo "({$output})";
                  }
           }
 
+
+
+
+
     }
     ?>
+
+
+    .........
+    ...tut3....working with getURLData
+    ...........
+
+
+    I define a functin getUrl() in regristry class .
+    ->if there is any empty controller i mean first last url value is empty.
+    then I use array_sift() and Array_pop() function;
+    for this there is another function called trim_array() which i define.
+    ->This function i get from index file.
+    -> also used singlton pattern to access registry class

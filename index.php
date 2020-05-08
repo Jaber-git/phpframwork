@@ -3,9 +3,10 @@
 include_once 'registry/registry.class.php';
 include_once 'registry/databaseobjects/mysql.database.class.php';
 //create an object of registry
-$regi= new Registry();
+$regi=Registry::Singleton();
 //in registry we stroe database object
 $regi->storeObject('mysql.database', 'db');
+$regi->getURLData();
 
 //connect db via registry
 $conn=$regi->getObject('db')->newConnection("localhost","root"," ","dv_mvc");

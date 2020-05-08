@@ -1,4 +1,8 @@
 #তুত-১Call from db by making custom database object
+https://phpro.org/classes/MySQL-Search-Entire-Database-For-Value.html
+
+form generation:
+https://phpro.org/classes/PDOFormGen-Doc.html
 
 --আমি আলাদা database class mysqldtabase তৈরি করি
 
